@@ -9,6 +9,7 @@ import './App.css';
 
 const GRID_SIZE = 50;
 const INTERVAL_DURATION = 1000; // 1 second in milliseconds
+const INITIAL_CREDITS = 100;
 const CAPACITOR_DURATION = 10; // 10 seconds
 const CONDUIT_COST = 10;
 const TREE_CHANCE = 0.1; // 10% chance to place a tree
@@ -149,6 +150,7 @@ const GameBoard: React.FC = () => {
   };
 
   const resetGrid = () => {
+    setScore(INITIAL_CREDITS);
     const newGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
