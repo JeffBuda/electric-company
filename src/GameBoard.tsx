@@ -18,44 +18,38 @@ const GameBoard: React.FC = () => {
     return () => clearInterval(interval);
   }, [grid]);
 
-  const updatePowerStatus = () => {
-    const newGrid = grid.map(row => row.map(tile => ({ ...tile, powered: false })));
+  const bfs = (startRow: number, startCol: number, newGrid: any[][]) => {
+    const directions = [
+      [0, 1], [1, 0], [0, -1], [-1, 0]
+    ];
+    const queue = [[startRow, startCol]];
+    newGrid[startRow][startCol].powered = true;
 
-    const isPowered = (row: number, col: number) => {
-      if (row < 0 || row >= GRID_SIZE || col < 0 || col >= GRID_SIZE) return false;
-      return newGrid[row][col].powered;
-    };
-
-    const powerTile = (row: number, col: number) => {
-      if (row < 0 || row >= GRID_SIZE || col < 0 || col >= GRID_SIZE) return;
-      const tile = newGrid[row][col];
-      if (tile.piece === 'source' && tile.on) {
-        tile.powered = true;
-      } else if (tile.piece === 'conduit' || tile.piece === 'sink') {
-        if (
-          isPowered(row - 1, col) ||
-          isPowered(row + 1, col) ||
-          isPowered(row, col - 1) ||
-          isPowered(row, col + 1)
-        ) {
-          tile.powered = true;
-        }
-      }
-    };
-
-    // First pass: power sources
-    for (let row = 0; row < GRID_SIZE; row++) {
-      for (let col = 0; col < GRID_SIZE; col++) {
-        if (newGrid[row][col].piece === 'source' && newGrid[row][col].on) {
-          newGrid[row][col].powered = true;
+    while (queue.length > 0) {
+      const [row, col] = queue.shift()!;
+      for (const [dx, dy] of directions) {
+        const newRow = row + dx;
+        const newCol = col + dy;
+        if (newRow >= 0 && newRow < GRID_SIZE && newCol >= 0 && newCol < GRID_SIZE) {
+          const neighbor = newGrid[newRow][newCol];
+          if (!neighbor.powered && (neighbor.piece === 'conduit' || neighbor.piece === 'sink')) {
+            neighbor.powered = true;
+            queue.push([newRow, newCol]);
+          }
         }
       }
     }
+  };
 
-    // Second pass: power conduits and sinks
+  const updatePowerStatus = () => {
+    const newGrid = grid.map(row => row.map(tile => ({ ...tile, powered: false })));
+
+    // Start BFS from each source
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
-        powerTile(row, col);
+        if (newGrid[row][col].piece === 'source' && newGrid[row][col].on) {
+          bfs(row, col, newGrid);
+        }
       }
     }
 
