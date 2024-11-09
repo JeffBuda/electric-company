@@ -48,19 +48,19 @@
 }
 
 .game-piece.source {
-  background-color: red;
-}
-
-.game-piece.source.off {
-  background-color: darkred;
-}
-
-.game-piece.conduit {
   background-color: blue;
 }
 
+.game-piece.source.off {
+  background-color: darkblue;
+}
+
+.game-piece.conduit {
+  background-color: darkolivegreen;
+}
+
 .game-piece.sink {
-  background-color: green;
+  background-color: orange;
 }
 
 .game-piece.powered {
@@ -68,7 +68,7 @@
 }
 
 .game-piece.switch {
-  background-color: lightcoral;
+  background-color: yellowgreen;
 }
 
 .game-piece.switch.off {
@@ -76,11 +76,11 @@
 }
 
 .game-piece.capacitor {
-  background-color: purple;
+  background-color: plum;
 }
 
 .game-piece.capacitor.off {
-  background-color: darkpurple;
+  background-color: purple;
 }
 
 .score {

@@ -4,7 +4,7 @@ import './App.css';
 
 const GRID_SIZE = 50;
 const INTERVAL_DURATION = 1000; // 1 second in milliseconds
-const CAPACITOR_DURATION = 10; // 10 seconds
+const CAPACITOR_DURATION = 5; // 5 seconds
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
