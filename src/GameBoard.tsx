@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
 import TreeIcon from './TreeIcon'; // Import the TreeIcon component
+import LakeIcon from './LakeIcon'; // Import the LakeIcon component
 import './App.css';
 
 const GRID_SIZE = 50;
@@ -10,11 +11,12 @@ const CONDUIT_COST = 10;
 const SINK_REWARD = 1;
 const STARTING_FUNDS = 100;
 const TREE_CHANCE = 0.1; // 10% chance to place a tree
+const LAKE_CHANCE = 0.05; // 5% chance to place a lake
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
   const [grid, setGrid] = useState(initialGrid);
-  const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'remove' | null>(null);
+  const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | null>(null);
   const [score, setScore] = useState(STARTING_FUNDS);
 
   useEffect(() => {
@@ -147,8 +149,11 @@ const GameBoard: React.FC = () => {
     const newGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
-        if (Math.random() < TREE_CHANCE) { // Use the TREE_CHANCE constant
+        const randomValue = Math.random();
+        if (randomValue < TREE_CHANCE) { // 10% chance to place a tree
           newGrid[row][col] = { piece: 'forest', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+        } else if (randomValue < TREE_CHANCE + LAKE_CHANCE) { // 5% chance to place a lake
+          newGrid[row][col] = { piece: 'lake', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
         }
       }
     }
@@ -165,6 +170,7 @@ const GameBoard: React.FC = () => {
         <button onClick={() => setSelectedPiece('switch')}>Switch</button>
         <button onClick={() => setSelectedPiece('capacitor')}>Capacitor</button>
         <button onClick={() => setSelectedPiece('forest')}>Tree</button>
+        <button onClick={() => setSelectedPiece('lake')}>Lake</button>
         <button onClick={() => setSelectedPiece('remove')}>Remove</button>
         <button onClick={forceRecalculatePower}>Refresh</button>
         <button onClick={clearGrid}>Clear</button>
