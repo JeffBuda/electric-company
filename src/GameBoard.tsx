@@ -13,7 +13,8 @@ const CAPACITOR_DURATION = 10; // 10 seconds
 const CONDUIT_COST = 10;
 const TREE_CHANCE = 0.1; // 10% chance to place a tree
 const LAKE_CHANCE = 0.05; // 5% chance to place a lake
-const SINK_REWARD = 1;
+const SINK_CHANCE = 0.03; // 10% chance to place a sink
+const SINK_REWARD = 100;
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
@@ -156,6 +157,8 @@ const GameBoard: React.FC = () => {
           newGrid[row][col] = { piece: 'forest', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
         } else if (randomValue < TREE_CHANCE + LAKE_CHANCE) { // 5% chance to place a lake
           newGrid[row][col] = { piece: 'lake', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+        } else if (randomValue < TREE_CHANCE + LAKE_CHANCE + SINK_CHANCE) { // 10% chance to place a sink
+          newGrid[row][col] = { piece: 'sink', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
         }
       }
     }
@@ -164,8 +167,8 @@ const GameBoard: React.FC = () => {
 
   return (
     <div className="game-container">
-      <div className="score">Score: {score}</div>
       <div className="controls">
+        <div className="score">Score: {score}</div>
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button onClick={() => setSelectedPiece('sink')}>Sink</button>
