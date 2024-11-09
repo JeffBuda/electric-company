@@ -1,8 +1,9 @@
 import React from 'react';
 import GamePiece from './GamePiece';
+import TreeIcon from './TreeIcon'; // Import the TreeIcon component
 
 type TileProps = {
-  piece: 'source' | 'conduit' | 'sink' | null;
+  piece: 'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | null;
   powered: boolean;
   onClick: () => void;
 };
@@ -10,7 +11,11 @@ type TileProps = {
 const Tile: React.FC<TileProps> = ({ piece, powered, onClick }) => {
   return (
     <div className="tile" onClick={onClick}>
-      {piece && <GamePiece type={piece} powered={powered} />}
+      {piece === 'forest' ? (
+        <TreeIcon />
+      ) : (
+        piece && <GamePiece type={piece} powered={powered} />
+      )}
     </div>
   );
 };

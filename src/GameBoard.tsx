@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
+import TreeIcon from './TreeIcon'; // Import the TreeIcon component
 import './App.css';
 
 const GRID_SIZE = 50;
 const INTERVAL_DURATION = 1000; // 1 second in milliseconds
-const CAPACITOR_DURATION = 5; // 5 seconds
+const CAPACITOR_DURATION = 10; // 10 seconds
 const CONDUIT_COST = 10;
 const SINK_REWARD = 1;
 const STARTING_FUNDS = 100;
@@ -12,7 +13,7 @@ const STARTING_FUNDS = 100;
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
   const [grid, setGrid] = useState(initialGrid);
-  const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'remove' | null>(null);
+  const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'remove' | null>(null);
   const [score, setScore] = useState(STARTING_FUNDS);
 
   useEffect(() => {
@@ -143,13 +144,14 @@ const GameBoard: React.FC = () => {
 
   return (
     <div className="game-container">
-      <div className="controls">
       <div className="score">Score: {score}</div>
+      <div className="controls">
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button onClick={() => setSelectedPiece('sink')}>Sink</button>
         <button onClick={() => setSelectedPiece('switch')}>Switch</button>
         <button onClick={() => setSelectedPiece('capacitor')}>Capacitor</button>
+        <button onClick={() => setSelectedPiece('forest')}>Tree</button>
         <button onClick={() => setSelectedPiece('remove')}>Remove</button>
         <button onClick={forceRecalculatePower}>Refresh</button>
         <button onClick={clearGrid}>Clear</button>
