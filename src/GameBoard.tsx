@@ -137,8 +137,8 @@ const GameBoard: React.FC = () => {
 
   return (
     <div className="game-container">
-      <div className="score">Score: {score}</div>
       <div className="controls">
+      <div className="score">Score: {score}</div>
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button onClick={() => setSelectedPiece('sink')}>Sink</button>
