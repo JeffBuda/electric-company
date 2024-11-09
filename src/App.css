@@ -1,4 +1,8 @@
 /* App.css */
+:root {
+  --grid-size: 50; /* Define the grid size variable */
+}
+
 .App {
   text-align: center;
 }
@@ -12,29 +16,33 @@
 .controls {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  margin-right: 2vw; /* Adjusted to use viewport width */
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(10, 50px);
-  grid-template-rows: repeat(10, 50px);
-  gap: 5px;
-  margin: 20px auto;
+  grid-template-columns: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
+  grid-template-rows: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
+  gap: 0.5vw; /* Adjusted to use viewport width */
+  margin: 2vw auto; /* Adjusted to use viewport width */
+  width: 80vw; /* Adjusted to use viewport width */
+  height: 80vw; /* Adjusted to use viewport width to maintain aspect ratio */
 }
 
 .tile {
-  width: 50px;
-  height: 50px;
-  border: 1px solid #ccc;
+  width: 100%; /* Adjusted to fill the grid cell */
+  height: 100%; /* Adjusted to fill the grid cell */
+  border: 0.1vw solid #363535; /* Adjusted to use viewport width */
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1 / 1; /* Ensure the tile is square */
 }
 
 .game-piece {
-  width: 40px;
-  height: 40px;
+  width: 80%; /* Adjusted to be relative to the tile */
+  height: 80%; /* Adjusted to be relative to the tile */
+  aspect-ratio: 1 / 1; /* Ensure the game piece is square */
 }
 
 .game-piece.source {
@@ -54,9 +62,9 @@
 }
 
 .game-piece.powered {
-  border: 2px solid yellow;
+  border: 0.2vw solid yellow; /* Adjusted to use viewport width */
 }
 
 .score {
-  margin-top: 20px;
+  margin-top: 2vw; /* Adjusted to use viewport width */
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
 import './App.css';
 
-const GRID_SIZE = 10;
+const GRID_SIZE = 50;
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true }));
