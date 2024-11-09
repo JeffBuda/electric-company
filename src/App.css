@@ -67,6 +67,14 @@
   border: 0.1vw solid yellow; /* Adjusted to use viewport width */
 }
 
+.game-piece.switch {
+  background-color: lightcoral;
+}
+
+.game-piece.switch.off {
+  background-color: darkred;
+}
+
 .score {
   margin-top: 2vw; /* Adjusted to use viewport width */
 }

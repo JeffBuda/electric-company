@@ -2,9 +2,9 @@
 import React from 'react';
 
 type GamePieceProps = {
-  type: 'source' | 'conduit' | 'sink';
+  type: 'source' | 'conduit' | 'sink' | 'switch';
   powered: boolean;
-  on?: boolean; // Optional prop for source state
+  on?: boolean; // Optional prop for source and switch state
 };
 
 const GamePiece: React.FC<GamePieceProps> = ({ type, powered, on }) => {
@@ -13,7 +13,7 @@ const GamePiece: React.FC<GamePieceProps> = ({ type, powered, on }) => {
     if (powered) {
       className += ' powered';
     }
-    if (type === 'source' && on === false) {
+    if ((type === 'source' || type === 'switch') && on === false) {
       className += ' off';
     }
     return className;

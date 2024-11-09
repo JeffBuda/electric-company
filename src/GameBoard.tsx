@@ -8,7 +8,7 @@ const INTERVAL_DURATION = 1000; // 1 second in milliseconds
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true }));
   const [grid, setGrid] = useState(initialGrid);
-  const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'remove' | null>(null);
+  const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'remove' | null>(null);
   const [score, setScore] = useState(0);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const GameBoard: React.FC = () => {
         const newCol = col + dy;
         if (newRow >= 0 && newRow < GRID_SIZE && newCol >= 0 && newCol < GRID_SIZE) {
           const neighbor = newGrid[newRow][newCol];
-          if (!neighbor.powered && (neighbor.piece === 'conduit' || neighbor.piece === 'sink')) {
+          if (!neighbor.powered && (neighbor.piece === 'conduit' || neighbor.piece === 'sink' || (neighbor.piece === 'switch' && neighbor.on))) {
             neighbor.powered = true;
             queue.push([newRow, newCol]);
           }
@@ -75,7 +75,7 @@ const GameBoard: React.FC = () => {
 
     if (selectedPiece === 'remove') {
       newGrid[row][col] = { piece: null, powered: false, on: true };
-    } else if (tile.piece === 'source') {
+    } else if (tile.piece === 'source' || tile.piece === 'switch') {
       tile.on = !tile.on;
     } else if (selectedPiece) {
       newGrid[row][col] = { piece: selectedPiece, powered: false, on: true };
@@ -99,6 +99,7 @@ const GameBoard: React.FC = () => {
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button onClick={() => setSelectedPiece('sink')}>Sink</button>
+        <button onClick={() => setSelectedPiece('switch')}>Switch</button>
         <button onClick={() => setSelectedPiece('remove')}>Remove</button>
         <button onClick={forceRecalculatePower}>Refresh</button>
         <button onClick={clearGrid}>Clear</button>
