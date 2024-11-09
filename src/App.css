@@ -75,6 +75,14 @@
   background-color: darkred;
 }
 
+.game-piece.capacitor {
+  background-color: purple;
+}
+
+.game-piece.capacitor.off {
+  background-color: darkpurple;
+}
+
 .score {
   margin-top: 2vw; /* Adjusted to use viewport width */
 }
