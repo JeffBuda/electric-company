@@ -5,12 +5,15 @@ import './App.css';
 const GRID_SIZE = 50;
 const INTERVAL_DURATION = 1000; // 1 second in milliseconds
 const CAPACITOR_DURATION = 5; // 5 seconds
+const CONDUIT_COST = 10;
+const SINK_REWARD = 1;
+const STARTING_FUNDS = 100;
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
   const [grid, setGrid] = useState(initialGrid);
   const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'remove' | null>(null);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(STARTING_FUNDS);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -102,7 +105,7 @@ const GameBoard: React.FC = () => {
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
         if (grid[row][col].piece === 'sink' && grid[row][col].powered) {
-          additionalScore += 1;
+          additionalScore += SINK_REWARD;
         }
       }
     }
@@ -123,7 +126,7 @@ const GameBoard: React.FC = () => {
     } else if (selectedPiece) {
       newGrid[row][col] = { piece: selectedPiece, powered: false, on: true, remainingPower: CAPACITOR_DURATION };
       if (selectedPiece === 'conduit') {
-        setScore(prevScore => prevScore - 10);
+        setScore(prevScore => prevScore - CONDUIT_COST);
       }
     }
 
