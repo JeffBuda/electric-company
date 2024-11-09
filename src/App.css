@@ -23,8 +23,8 @@
   display: grid;
   grid-template-columns: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
   grid-template-rows: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
-  gap: 0.5vw; /* Adjusted to use viewport width */
-  margin: 2vw auto; /* Adjusted to use viewport width */
+  gap: 0.1vw; /* Adjusted to use viewport width */
+  margin: 1vw auto; /* Adjusted to use viewport width */
   width: 80vw; /* Adjusted to use viewport width */
   height: 80vw; /* Adjusted to use viewport width to maintain aspect ratio */
 }
@@ -37,12 +37,14 @@
   align-items: center;
   justify-content: center;
   aspect-ratio: 1 / 1; /* Ensure the tile is square */
+  box-sizing: border-box; /* Include border in the element's total width and height */
 }
 
 .game-piece {
   width: 80%; /* Adjusted to be relative to the tile */
   height: 80%; /* Adjusted to be relative to the tile */
   aspect-ratio: 1 / 1; /* Ensure the game piece is square */
+  box-sizing: border-box; /* Include border in the element's total width and height */
 }
 
 .game-piece.source {
@@ -62,7 +64,7 @@
 }
 
 .game-piece.powered {
-  border: 0.2vw solid yellow; /* Adjusted to use viewport width */
+  border: 0.1vw solid yellow; /* Adjusted to use viewport width */
 }
 
 .score {
