@@ -122,6 +122,9 @@ const GameBoard: React.FC = () => {
       }
     } else if (selectedPiece) {
       newGrid[row][col] = { piece: selectedPiece, powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+      if (selectedPiece === 'conduit') {
+        setScore(prevScore => prevScore - 10);
+      }
     }
 
     setGrid(newGrid);
