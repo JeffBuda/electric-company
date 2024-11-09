@@ -1,0 +1,62 @@
+/* App.css */
+.App {
+  text-align: center;
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+  gap: 5px;
+  margin: 20px auto;
+}
+
+.tile {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-piece {
+  width: 40px;
+  height: 40px;
+}
+
+.game-piece.source {
+  background-color: red;
+}
+
+.game-piece.source.off {
+  background-color: darkred;
+}
+
+.game-piece.conduit {
+  background-color: blue;
+}
+
+.game-piece.sink {
+  background-color: green;
+}
+
+.game-piece.powered {
+  border: 2px solid yellow;
+}
+
+.score {
+  margin-top: 20px;
+}
