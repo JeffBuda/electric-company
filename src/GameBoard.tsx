@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
 import TreeIcon from './TreeIcon'; // Import the TreeIcon component
 import LakeIcon from './LakeIcon'; // Import the LakeIcon component
+import SourceIcon from './SourceIcon'; // Import the SourceIcon component
 import './App.css';
 
 const GRID_SIZE = 50;
