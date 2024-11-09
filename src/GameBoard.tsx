@@ -9,6 +9,7 @@ const CAPACITOR_DURATION = 10; // 10 seconds
 const CONDUIT_COST = 10;
 const SINK_REWARD = 1;
 const STARTING_FUNDS = 100;
+const TREE_CHANCE = 0.1; // 10% chance to place a tree
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
@@ -142,6 +143,18 @@ const GameBoard: React.FC = () => {
     setGrid(initialGrid);
   };
 
+  const resetGrid = () => {
+    const newGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
+    for (let row = 0; row < GRID_SIZE; row++) {
+      for (let col = 0; col < GRID_SIZE; col++) {
+        if (Math.random() < TREE_CHANCE) { // Use the TREE_CHANCE constant
+          newGrid[row][col] = { piece: 'forest', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+        }
+      }
+    }
+    setGrid(newGrid);
+  };
+
   return (
     <div className="game-container">
       <div className="score">Score: {score}</div>
@@ -155,6 +168,7 @@ const GameBoard: React.FC = () => {
         <button onClick={() => setSelectedPiece('remove')}>Remove</button>
         <button onClick={forceRecalculatePower}>Refresh</button>
         <button onClick={clearGrid}>Clear</button>
+        <button onClick={resetGrid}>Reset</button>
       </div>
       <div className="grid">
         {grid.map((row, rowIndex) =>
