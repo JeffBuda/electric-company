@@ -4,22 +4,22 @@ import TreeIcon from './TreeIcon'; // Import the TreeIcon component
 import LakeIcon from './LakeIcon'; // Import the LakeIcon component
 import SourceIcon from './SourceIcon'; // Import the SourceIcon component
 import ConduitIcon from './ConduitIcon'; // Import the ConduitIcon component
+import SinkIcon from './SinkIcon'; // Import the SinkIcon component
 import './App.css';
 
 const GRID_SIZE = 50;
 const INTERVAL_DURATION = 1000; // 1 second in milliseconds
 const CAPACITOR_DURATION = 10; // 10 seconds
 const CONDUIT_COST = 10;
-const SINK_REWARD = 1;
-const STARTING_FUNDS = 100;
 const TREE_CHANCE = 0.1; // 10% chance to place a tree
 const LAKE_CHANCE = 0.05; // 5% chance to place a lake
+const SINK_REWARD = 1;
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
   const [grid, setGrid] = useState(initialGrid);
   const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | null>(null);
-  const [score, setScore] = useState(STARTING_FUNDS);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {

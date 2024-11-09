@@ -4,6 +4,7 @@ import TreeIcon from './TreeIcon'; // Import the TreeIcon component
 import LakeIcon from './LakeIcon'; // Import the LakeIcon component
 import SourceIcon from './SourceIcon'; // Import the SourceIcon component
 import ConduitIcon from './ConduitIcon'; // Import the ConduitIcon component
+import SinkIcon from './SinkIcon'; // Import the SinkIcon component
 
 type TileProps = {
   piece: 'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | null;
@@ -22,6 +23,8 @@ const Tile: React.FC<TileProps> = ({ piece, powered, onClick }) => {
         <SourceIcon />
       ) : piece === 'conduit' ? (
         <ConduitIcon />
+      ) : piece === 'sink' ? (
+        <SinkIcon />
       ) : (
         piece && <GamePiece type={piece} powered={powered} />
       )}
