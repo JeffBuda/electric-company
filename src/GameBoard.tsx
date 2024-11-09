@@ -58,18 +58,15 @@ const GameBoard: React.FC = () => {
   };
 
   const updateScore = () => {
-    let newScore = 0;
+    let additionalScore = 0;
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
-        if (grid[row][col].piece === 'source' && grid[row][col].powered) {
-          newScore += 1;
-        }
         if (grid[row][col].piece === 'sink' && grid[row][col].powered) {
-          newScore += 1;
+          additionalScore += 1;
         }
       }
     }
-    setScore(prevScore => prevScore + newScore);
+    setScore(prevScore => prevScore + additionalScore);
   };
 
   const handleTileClick = (row: number, col: number) => {
