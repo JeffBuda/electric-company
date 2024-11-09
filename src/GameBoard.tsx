@@ -3,6 +3,7 @@ import Tile from './Tile';
 import TreeIcon from './TreeIcon'; // Import the TreeIcon component
 import LakeIcon from './LakeIcon'; // Import the LakeIcon component
 import SourceIcon from './SourceIcon'; // Import the SourceIcon component
+import ConduitIcon from './ConduitIcon'; // Import the ConduitIcon component
 import './App.css';
 
 const GRID_SIZE = 50;
