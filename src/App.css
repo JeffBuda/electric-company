@@ -30,14 +30,17 @@
 }
 
 .tile {
-  width: 100%; /* Adjusted to fill the grid cell */
-  height: 100%; /* Adjusted to fill the grid cell */
-  border: 0.1vw solid #363535; /* Adjusted to use viewport width */
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1 / 1; /* Ensure the tile is square */
   box-sizing: border-box; /* Include border in the element's total width and height */
+}
+
+.tile.powered {
+  outline: 2px solid yellow; /* Use outline instead of border */
+  box-sizing: border-box; /* Ensure border is included in the element's total width and height */
 }
 
 .game-piece {

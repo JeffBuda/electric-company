@@ -14,7 +14,7 @@ type TileProps = {
 
 const Tile: React.FC<TileProps> = ({ piece, powered, onClick }) => {
   return (
-    <div className="tile" onClick={onClick}>
+    <div className={`tile ${powered ? 'powered' : ''}`} onClick={onClick}>
       {piece === 'forest' ? (
         <TreeIcon />
       ) : piece === 'lake' ? (
