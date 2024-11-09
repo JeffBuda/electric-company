@@ -3,6 +3,7 @@ import Tile from './Tile';
 import './App.css';
 
 const GRID_SIZE = 50;
+const INTERVAL_DURATION = 1000; // 1 second in milliseconds
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true }));
@@ -14,7 +15,7 @@ const GameBoard: React.FC = () => {
     const interval = setInterval(() => {
       updatePowerStatus();
       updateScore();
-    }, 1000);
+    }, INTERVAL_DURATION);
     return () => clearInterval(interval);
   }, [grid]);
 
@@ -63,9 +64,12 @@ const GameBoard: React.FC = () => {
         if (grid[row][col].piece === 'source' && grid[row][col].powered) {
           newScore += 1;
         }
+        if (grid[row][col].piece === 'sink' && grid[row][col].powered) {
+          newScore += 1;
+        }
       }
     }
-    setScore(newScore);
+    setScore(prevScore => prevScore + newScore);
   };
 
   const handleTileClick = (row: number, col: number) => {
@@ -93,6 +97,7 @@ const GameBoard: React.FC = () => {
 
   return (
     <div className="game-container">
+      <div className="score">Score: {score}</div>
       <div className="controls">
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
@@ -113,7 +118,6 @@ const GameBoard: React.FC = () => {
           ))
         )}
       </div>
-      <div className="score">Score: {score}</div>
     </div>
   );
 };
