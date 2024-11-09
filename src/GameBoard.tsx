@@ -9,19 +9,20 @@ import './App.css';
 
 const GRID_SIZE = 50;
 const INTERVAL_DURATION = 1000; // 1 second in milliseconds
-const INITIAL_CREDITS = 100;
 const CAPACITOR_DURATION = 10; // 10 seconds
 const CONDUIT_COST = 10;
+const SOURCE_COST = 1000; // Cost of placing a source
 const TREE_CHANCE = 0.1; // 10% chance to place a tree
 const LAKE_CHANCE = 0.05; // 5% chance to place a lake
-const SINK_CHANCE = 0.03; // 10% chance to place a sink
-const SINK_REWARD = 100;
+const SINK_CHANCE = 0.03; // 3% chance to place a sink
+const SINK_REWARD = .01;
+const INITIAL_CREDITS = 100; // Initial credits
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
   const [grid, setGrid] = useState(initialGrid);
   const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | null>(null);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(INITIAL_CREDITS);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,6 +31,11 @@ const GameBoard: React.FC = () => {
     }, INTERVAL_DURATION);
     return () => clearInterval(interval);
   }, [grid]);
+
+  // reset game on refresh of page
+  // useEffect(() => {
+  //   resetGrid();
+  // }, []);
 
   const bfs = (startRow: number, startCol: number, newGrid: any[][]) => {
     const directions = [
@@ -135,6 +141,8 @@ const GameBoard: React.FC = () => {
       newGrid[row][col] = { piece: selectedPiece, powered: false, on: true, remainingPower: CAPACITOR_DURATION };
       if (selectedPiece === 'conduit') {
         setScore(prevScore => prevScore - CONDUIT_COST);
+      } else if (selectedPiece === 'source') {
+        setScore(prevScore => prevScore - SOURCE_COST);
       }
     }
 
@@ -150,7 +158,6 @@ const GameBoard: React.FC = () => {
   };
 
   const resetGrid = () => {
-    setScore(INITIAL_CREDITS);
     const newGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
@@ -159,18 +166,19 @@ const GameBoard: React.FC = () => {
           newGrid[row][col] = { piece: 'forest', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
         } else if (randomValue < TREE_CHANCE + LAKE_CHANCE) { // 5% chance to place a lake
           newGrid[row][col] = { piece: 'lake', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
-        } else if (randomValue < TREE_CHANCE + LAKE_CHANCE + SINK_CHANCE) { // 10% chance to place a sink
+        } else if (randomValue < TREE_CHANCE + LAKE_CHANCE + SINK_CHANCE) { // 3% chance to place a sink
           newGrid[row][col] = { piece: 'sink', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
         }
       }
     }
     setGrid(newGrid);
+    setScore(INITIAL_CREDITS); // Reset score to INITIAL_CREDITS
   };
 
   return (
     <div className="game-container">
       <div className="controls">
-        <div className="score">Score: {score}</div>
+      <div className="score">Score: {score}</div>
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button onClick={() => setSelectedPiece('sink')}>Sink</button>
