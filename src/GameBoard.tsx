@@ -26,10 +26,11 @@ const DIRECTIONS = [
 ];
 
 const GameBoard: React.FC = () => {
-  const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
+  const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION, wasPowered: false }));
   const [grid, setGrid] = useState(initialGrid);
   const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | 'toggle' | 'tornado' | null>(null);
   const [score, setScore] = useState(INITIAL_CREDITS);
+  const [outages, setOutages] = useState(0);
   const [tornadoes, setTornadoes] = useState([{ row: Math.floor(Math.random() * GRID_SIZE), col: Math.floor(Math.random() * GRID_SIZE), direction: DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)] }]);
 
   useEffect(() => {
@@ -116,7 +117,23 @@ const GameBoard: React.FC = () => {
       }
     }
 
+    // Update outage count for sinks that were powered but are no longer powered
+    let newOutages = 0;
+    for (let row = 0; row < GRID_SIZE; row++) {
+      for (let col = 0; col < GRID_SIZE; col++) {
+        const tile = newGrid[row][col];
+        if (tile.piece === 'sink') {
+          if (tile.powered) {
+            tile.wasPowered = true;
+          } else if (tile.wasPowered) {
+            newOutages += 1;
+          }
+        }
+      }
+    }
+
     setGrid(newGrid);
+    setOutages(prevOutages => prevOutages + newOutages);
   };
 
   const updateScore = () => {
@@ -136,7 +153,7 @@ const GameBoard: React.FC = () => {
     const tile = newGrid[row][col];
 
     if (selectedPiece === 'remove') {
-      newGrid[row][col] = { piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+      newGrid[row][col] = { piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION, wasPowered: tile.wasPowered };
     } else if (selectedPiece === 'toggle') {
       if (tile.piece === 'source' || tile.piece === 'switch') {
         tile.on = !tile.on;
@@ -154,7 +171,7 @@ const GameBoard: React.FC = () => {
         tile.remainingPower = CAPACITOR_DURATION;
       }
     } else if (selectedPiece) {
-      newGrid[row][col] = { piece: selectedPiece, powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+      newGrid[row][col] = { piece: selectedPiece, powered: false, on: true, remainingPower: CAPACITOR_DURATION, wasPowered: tile.wasPowered };
       if (selectedPiece === 'conduit') {
         setScore(prevScore => prevScore - CONDUIT_COST);
       } else if (selectedPiece === 'source') {
@@ -173,7 +190,7 @@ const GameBoard: React.FC = () => {
 
       if (newRow >= 0 && newRow < GRID_SIZE && newCol >= 0 && newCol < GRID_SIZE) {
         if (newGrid[newRow][newCol].piece === 'conduit') {
-          newGrid[newRow][newCol] = { piece: null, powered: false, on: true, remainingPower: 0 };
+          newGrid[newRow][newCol] = { piece: null, powered: false, on: true, remainingPower: 0, wasPowered: newGrid[newRow][newCol].wasPowered };
         }
         return { ...tornado, row: newRow, col: newCol };
       } else {
@@ -190,21 +207,22 @@ const GameBoard: React.FC = () => {
   };
 
   const resetGrid = () => {
-    const newGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
+    const newGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION, wasPowered: false }));
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
         const randomValue = Math.random();
         if (randomValue < TREE_CHANCE) { // 10% chance to place a tree
-          newGrid[row][col] = { piece: 'forest', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+          newGrid[row][col] = { piece: 'forest', powered: false, on: true, remainingPower: CAPACITOR_DURATION, wasPowered: false };
         } else if (randomValue < TREE_CHANCE + LAKE_CHANCE) { // 5% chance to place a lake
-          newGrid[row][col] = { piece: 'lake', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+          newGrid[row][col] = { piece: 'lake', powered: false, on: true, remainingPower: CAPACITOR_DURATION, wasPowered: false };
         } else if (randomValue < TREE_CHANCE + LAKE_CHANCE + SINK_CHANCE) { // 3% chance to place a sink
-          newGrid[row][col] = { piece: 'sink', powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+          newGrid[row][col] = { piece: 'sink', powered: false, on: true, remainingPower: CAPACITOR_DURATION, wasPowered: false };
         }
       }
     }
     setGrid(newGrid);
     setScore(INITIAL_CREDITS); // Reset score to INITIAL_CREDITS
+    setOutages(0); // Reset outages to 0
   };
 
   const addTornado = () => {
@@ -218,6 +236,7 @@ const GameBoard: React.FC = () => {
     <div className="game-container">
       <div className="controls">
         <div className="score">Score: {Math.floor(score)}</div>
+        <div className="outages">Outages: {outages}</div>
         <button className={selectedPiece === 'source' ? 'selected' : ''} onClick={() => setSelectedPiece('source')}>Source</button>
         <button className={selectedPiece === 'conduit' ? 'selected' : ''} onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button className={selectedPiece === 'sink' ? 'selected' : ''} onClick={() => setSelectedPiece('sink')}>Sink</button>
