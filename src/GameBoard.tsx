@@ -233,6 +233,7 @@ const GameBoard: React.FC = () => {
     setGrid(newGrid);
     setScore(INITIAL_CREDITS); // Reset score to INITIAL_CREDITS
     setOutages(0); // Reset outages to 0
+    setTornadoes([]); // Remove all tornadoes
     setGameState('start'); // Set game state to 'start' to show the start modal
   };
 
