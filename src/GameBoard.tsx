@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
-
+import Modal from './Modal';
 import './App.css';
 
 const GRID_SIZE = 50;
@@ -32,16 +32,23 @@ const GameBoard: React.FC = () => {
   const [score, setScore] = useState(INITIAL_CREDITS);
   const [outages, setOutages] = useState(0);
   const [tornadoes, setTornadoes] = useState<{ row: number, col: number, direction: { row: number, col: number } }[]>([]);
+  const [gameState, setGameState] = useState<'start' | 'playing' | 'gameOver'>('start');
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      moveTornadoes();
-      updatePowerStatus();
-      updateScore();
-    }, INTERVAL_DURATION);
-    return () => clearInterval(interval);
-  }, [grid, tornadoes]);
+    if (gameState === 'playing') {
+      const interval = setInterval(() => {
+        moveTornadoes();
+        updatePowerStatus();
+        updateScore();
+        checkGameOver();
+      }, INTERVAL_DURATION);
+      return () => clearInterval(interval);
+    }
+  }, [grid, tornadoes, gameState]);
 
+  useEffect(() => {
+    resetGrid();
+  }, []);
 
   const bfs = (startRow: number, startCol: number, newGrid: any[][]) => {
     const directions = [
@@ -149,6 +156,8 @@ const GameBoard: React.FC = () => {
   };
 
   const handleTileClick = (row: number, col: number) => {
+    if (gameState !== 'playing') return;
+
     const newGrid = [...grid];
     const tile = newGrid[row][col];
 
@@ -232,8 +241,34 @@ const GameBoard: React.FC = () => {
     setTornadoes(prevTornadoes => [...prevTornadoes, { row: randomRow, col: randomCol, direction: randomDirection }]);
   };
 
+  const checkGameOver = () => {
+    if (outages > 100 || score < -2000) {
+      setGameState('gameOver');
+    }
+  };
+
+  const startGame = () => {
+    setGameState('playing');
+    resetGrid();
+  };
+
+  const closeModal = () => {
+    if (gameState === 'start') {
+      startGame();
+    } else if (gameState === 'gameOver') {
+      setGameState('start');
+    }
+  };
+
   return (
     <div className="game-container">
+      {gameState !== 'playing' && (
+        <Modal
+          title={gameState === 'start' ? 'Welcome to the Energy Transfer Game' : 'Game Over'}
+          message={gameState === 'start' ? 'Instructions: Place pieces to manage the energy flow. Avoid outages and negative scores.' : 'You lost! You had over 100 outages or a score below -2000.'}
+          onClose={closeModal}
+        />
+      )}
       <div className="controls">
         <div className="score">Score: {Math.floor(score)}</div>
         <div className="outages">Outages: {outages}</div>
