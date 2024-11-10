@@ -31,7 +31,7 @@ const GameBoard: React.FC = () => {
   const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | 'toggle' | 'tornado' | null>(null);
   const [score, setScore] = useState(INITIAL_CREDITS);
   const [outages, setOutages] = useState(0);
-  const [tornadoes, setTornadoes] = useState([{ row: Math.floor(Math.random() * GRID_SIZE), col: Math.floor(Math.random() * GRID_SIZE), direction: DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)] }]);
+  const [tornadoes, setTornadoes] = useState<{ row: number, col: number, direction: { row: number, col: number } }[]>([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -194,7 +194,7 @@ const GameBoard: React.FC = () => {
         }
         return { ...tornado, row: newRow, col: newCol };
       } else {
-        return { ...tornado, direction: { row: -tornado.direction.row, col: -tornado.direction.col } };
+        return { ...tornado, direction: DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)] };
       }
     });
 
@@ -229,7 +229,7 @@ const GameBoard: React.FC = () => {
     const randomRow = Math.floor(Math.random() * GRID_SIZE);
     const randomCol = Math.floor(Math.random() * GRID_SIZE);
     const randomDirection = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
-    setTornadoes([...tornadoes, { row: randomRow, col: randomCol, direction: randomDirection }]);
+    setTornadoes(prevTornadoes => [...prevTornadoes, { row: randomRow, col: randomCol, direction: randomDirection }]);
   };
 
   return (
@@ -246,7 +246,6 @@ const GameBoard: React.FC = () => {
         <button className={selectedPiece === 'lake' ? 'selected' : ''} onClick={() => setSelectedPiece('lake')}>Lake</button>
         <button className={selectedPiece === 'remove' ? 'selected' : ''} onClick={() => setSelectedPiece('remove')}>Remove</button>
         <button className={selectedPiece === 'toggle' ? 'selected' : ''} onClick={() => setSelectedPiece('toggle')}>Toggle</button>
-        <button className={selectedPiece === 'tornado' ? 'selected' : ''} onClick={() => setSelectedPiece('tornado')}>Tornado</button>
         <button onClick={clearGrid}>Clear</button>
         <button onClick={resetGrid}>Reset</button>
         <button onClick={addTornado}>Add Tornado</button>
