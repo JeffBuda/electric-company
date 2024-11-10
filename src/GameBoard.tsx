@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
-import TreeIcon from './TreeIcon'; // Import the TreeIcon component
-import LakeIcon from './LakeIcon'; // Import the LakeIcon component
-import SourceIcon from './SourceIcon'; // Import the SourceIcon component
-import ConduitIcon from './ConduitIcon'; // Import the ConduitIcon component
-import SinkIcon from './SinkIcon'; // Import the SinkIcon component
-import TornadoIcon from './TornadoIcon'; // Import the TornadoIcon component
+
 import './App.css';
 
 const GRID_SIZE = 50;
@@ -197,7 +192,7 @@ const GameBoard: React.FC = () => {
   return (
     <div className="game-container">
       <div className="controls">
-        <div className="score">Score: {score}</div>
+        <div className="score">Score: {Math.floor(score)}</div>
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button onClick={() => setSelectedPiece('sink')}>Sink</button>
