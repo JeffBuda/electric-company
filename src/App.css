@@ -37,7 +37,6 @@
 
 .game-title {
   font-size: 1rem; /* Same size as button text */
-  margin-bottom: 5px; /* Space between the title and buttons */
 }
 
 .score-outages {
@@ -53,6 +52,7 @@
   flex-direction: row; /* Row layout */
   justify-content: center; /* Center buttons horizontally */
   flex-wrap: wrap; /* Wrap buttons to the next line if needed */
+  gap: .4vw; /* Space between buttons */
 }
 
 .controls button.selected {
@@ -85,6 +85,10 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box; /* Include border in the element's total width and height */
+}
+.tile svg {
+  width: 32px;
+  height: 32px;
 }
 
 .tile.powered {
