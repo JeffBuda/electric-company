@@ -14,12 +14,23 @@ const SINK_CHANCE = 0.03; // 3% chance to place a sink
 const INITIAL_CREDITS = 100; // Initial credits
 const SINK_REWARD = 0.1; // Reward for each powered sink
 
+const DIRECTIONS = [
+  { row: -1, col: 0 },  // North
+  { row: -1, col: 1 },  // North-East
+  { row: 0, col: 1 },   // East
+  { row: 1, col: 1 },   // South-East
+  { row: 1, col: 0 },   // South
+  { row: 1, col: -1 },  // South-West
+  { row: 0, col: -1 },  // West
+  { row: -1, col: -1 }  // North-West
+];
+
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
   const [grid, setGrid] = useState(initialGrid);
   const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | 'toggle' | null>(null);
   const [score, setScore] = useState(INITIAL_CREDITS);
-  const [tornadoes, setTornadoes] = useState([{ row: 0, col: 0, direction: { row: 1, col: 1 } }]);
+  const [tornadoes, setTornadoes] = useState([{ row: Math.floor(Math.random() * GRID_SIZE), col: Math.floor(Math.random() * GRID_SIZE), direction: DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)] }]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -190,7 +201,10 @@ const GameBoard: React.FC = () => {
   };
 
   const addTornado = () => {
-    setTornadoes([...tornadoes, { row: 0, col: 0, direction: { row: 1, col: 1 } }]);
+    const randomRow = Math.floor(Math.random() * GRID_SIZE);
+    const randomCol = Math.floor(Math.random() * GRID_SIZE);
+    const randomDirection = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+    setTornadoes([...tornadoes, { row: randomRow, col: randomCol, direction: randomDirection }]);
   };
 
   return (
