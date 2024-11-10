@@ -44,8 +44,8 @@
   display: flex;
   flex-direction: row; /* Column layout */
   align-items: center; /* Center items horizontally */
-  margin-bottom: 10px; /* Space between score/outages and buttons */
-  margin-top: 1px;
+  margin-bottom: .1vw; /* Space between score/outages and buttons */
+  margin-top: .1vw;
 }
 
 .button-container {
@@ -56,7 +56,7 @@
 }
 
 .controls button.selected {
-  border: 2px solid yellow;
+  border: .1vw solid yellow;
 }
 
 .grid {
@@ -88,11 +88,11 @@
 }
 
 .tile.powered {
-  border: 2px solid yellow;
+  border: .1vw solid goldenrod;
 }
 
 .tile.unpowered {
-  border: 2px solid red;
+  border: .1vw solid red;
 }
 
 .game-piece {
