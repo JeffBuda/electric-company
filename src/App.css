@@ -27,7 +27,7 @@
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Adjust to center */
   z-index: 1000; /* Ensure it stays on top of other content */
-  padding: 10px; /* Add some padding */
+  padding: .3vw; /* Add some padding */
   background-color: darkslategrey; /* Optional: to ensure it doesn't overlap with other content */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
   border-radius: 10px; /* Add rounded corners */
@@ -37,6 +37,8 @@
 
 .game-title {
   font-size: 1rem; /* Same size as button text */
+  margin: .05vw;
+  margin-top: .01vw; /* Space between title and score/outages */
 }
 
 .score-outages {
@@ -45,6 +47,7 @@
   align-items: center; /* Center items horizontally */
   margin-bottom: .1vw; /* Space between score/outages and buttons */
   margin-top: .1vw;
+  gap: .4vw; /* Space between score and outages */
 }
 
 .button-container {

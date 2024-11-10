@@ -289,11 +289,11 @@ const GameBoard: React.FC = () => {
               <button className={selectedPiece === 'lake' ? 'selected' : ''} onClick={() => setSelectedPiece('lake')}>Lake</button>
               <button className={selectedPiece === 'remove' ? 'selected' : ''} onClick={() => setSelectedPiece('remove')}>Remove</button>
               <button className={selectedPiece === 'toggle' ? 'selected' : ''} onClick={() => setSelectedPiece('toggle')}>Toggle</button>
-            </>
+              <button onClick={addTornado}>Add Tornado</button>
+              <button onClick={clearGrid}>Clear</button>
+              <button onClick={resetGrid}>Reset</button>
+              </>
           )}
-          <button onClick={clearGrid}>Clear</button>
-          <button onClick={resetGrid}>Reset</button>
-          <button onClick={addTornado}>Add Tornado</button>
           <button onClick={() => setDevMode(!devMode)}>Dev Mode</button>
         </div>
       </div>
