@@ -5,6 +5,7 @@ import LakeIcon from './LakeIcon'; // Import the LakeIcon component
 import SourceIcon from './SourceIcon'; // Import the SourceIcon component
 import ConduitIcon from './ConduitIcon'; // Import the ConduitIcon component
 import SinkIcon from './SinkIcon'; // Import the SinkIcon component
+import TornadoIcon from './TornadoIcon'; // Import the TornadoIcon component
 import './App.css';
 
 const GRID_SIZE = 50;
@@ -15,7 +16,6 @@ const SOURCE_COST = 1000; // Cost of placing a source
 const TREE_CHANCE = 0.1; // 10% chance to place a tree
 const LAKE_CHANCE = 0.05; // 5% chance to place a lake
 const SINK_CHANCE = 0.03; // 3% chance to place a sink
-const SINK_REWARD = .01;
 const INITIAL_CREDITS = 100; // Initial credits
 
 const GameBoard: React.FC = () => {
@@ -23,19 +23,17 @@ const GameBoard: React.FC = () => {
   const [grid, setGrid] = useState(initialGrid);
   const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | null>(null);
   const [score, setScore] = useState(INITIAL_CREDITS);
+  const [tornadoes, setTornadoes] = useState([{ row: 0, col: 0, direction: { row: 1, col: 1 } }]);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      moveTornadoes();
       updatePowerStatus();
       updateScore();
     }, INTERVAL_DURATION);
     return () => clearInterval(interval);
-  }, [grid]);
+  }, [grid, tornadoes]);
 
-  // reset game on refresh of page
-  // useEffect(() => {
-  //   resetGrid();
-  // }, []);
 
   const bfs = (startRow: number, startCol: number, newGrid: any[][]) => {
     const directions = [
@@ -149,8 +147,24 @@ const GameBoard: React.FC = () => {
     setGrid(newGrid);
   };
 
-  const forceRecalculatePower = () => {
-    updatePowerStatus();
+  const moveTornadoes = () => {
+    const newGrid = [...grid];
+    const newTornadoes = tornadoes.map(tornado => {
+      const newRow = tornado.row + tornado.direction.row;
+      const newCol = tornado.col + tornado.direction.col;
+
+      if (newRow >= 0 && newRow < GRID_SIZE && newCol >= 0 && newCol < GRID_SIZE) {
+        if (newGrid[newRow][newCol].piece === 'conduit') {
+          newGrid[newRow][newCol] = { piece: null, powered: false, on: true, remainingPower: 0 };
+        }
+        return { ...tornado, row: newRow, col: newCol };
+      } else {
+        return { ...tornado, direction: { row: -tornado.direction.row, col: -tornado.direction.col } };
+      }
+    });
+
+    setGrid(newGrid);
+    setTornadoes(newTornadoes);
   };
 
   const clearGrid = () => {
@@ -175,10 +189,14 @@ const GameBoard: React.FC = () => {
     setScore(INITIAL_CREDITS); // Reset score to INITIAL_CREDITS
   };
 
+  const addTornado = () => {
+    setTornadoes([...tornadoes, { row: 0, col: 0, direction: { row: 1, col: 1 } }]);
+  };
+
   return (
     <div className="game-container">
-      <div className="controls">
       <div className="score">Score: {score}</div>
+      <div className="controls">
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button onClick={() => setSelectedPiece('sink')}>Sink</button>
@@ -187,16 +205,16 @@ const GameBoard: React.FC = () => {
         <button onClick={() => setSelectedPiece('forest')}>Tree</button>
         <button onClick={() => setSelectedPiece('lake')}>Lake</button>
         <button onClick={() => setSelectedPiece('remove')}>Remove</button>
-        <button onClick={forceRecalculatePower}>Refresh</button>
         <button onClick={clearGrid}>Clear</button>
         <button onClick={resetGrid}>Reset</button>
+        <button onClick={addTornado}>Tornado</button>
       </div>
       <div className="grid">
         {grid.map((row, rowIndex) =>
           row.map((tile, colIndex) => (
             <Tile
               key={`${rowIndex}-${colIndex}`}
-              piece={tile.piece}
+              piece={tornadoes.some(t => t.row === rowIndex && t.col === colIndex) ? 'tornado' : tile.piece}
               powered={tile.powered}
               onClick={() => handleTileClick(rowIndex, colIndex)}
             />
