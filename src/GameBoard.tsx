@@ -12,7 +12,7 @@ const TREE_CHANCE = 0.1; // 10% chance to place a tree
 const LAKE_CHANCE = 0.05; // 5% chance to place a lake
 const SINK_CHANCE = 0.03; // 3% chance to place a sink
 const INITIAL_CREDITS = 100; // Initial credits
-const SINK_REWARD = 0.1; // Reward for each powered sink
+const SINK_REWARD = 1; // Reward for each powered sink
 
 const DIRECTIONS = [
   { row: -1, col: 0 },  // North
@@ -257,6 +257,7 @@ const GameBoard: React.FC = () => {
               key={`${rowIndex}-${colIndex}`}
               piece={tornadoes.some(t => t.row === rowIndex && t.col === colIndex) ? 'tornado' : tile.piece}
               powered={tile.powered}
+              wasPowered={tile.wasPowered}
               onClick={() => handleTileClick(rowIndex, colIndex)}
             />
           ))

@@ -47,8 +47,11 @@
 }
 
 .tile.powered {
-  outline: 2px solid darkgoldenrod; /* Use outline instead of border */
-  box-sizing: border-box; /* Ensure border is included in the element's total width and height */
+  border: 2px solid yellow;
+}
+
+.tile.unpowered {
+  border: 2px solid red;
 }
 
 .game-piece {

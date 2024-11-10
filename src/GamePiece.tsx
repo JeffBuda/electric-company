@@ -2,7 +2,7 @@
 import React from 'react';
 
 type GamePieceProps = {
-  type: 'source' | 'conduit' | 'sink' | 'switch' | 'capacitor';
+  type: string;//'source' | 'conduit' | 'sink' | 'switch' | 'capacitor';
   powered: boolean;
   on?: boolean; // Optional prop for source, switch, and capacitor state
 };

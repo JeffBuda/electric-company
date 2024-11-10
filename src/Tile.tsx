@@ -6,16 +6,25 @@ import SourceIcon from './SourceIcon'; // Import the SourceIcon component
 import ConduitIcon from './ConduitIcon'; // Import the ConduitIcon component
 import SinkIcon from './SinkIcon'; // Import the SinkIcon component
 import TornadoIcon from './TornadoIcon'; // Import the TornadoIcon component
+//import './Tile.css';
 
 type TileProps = {
-  piece: 'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'tornado' | null;
+  piece: string | null;
   powered: boolean;
+  wasPowered: boolean;
   onClick: () => void;
 };
 
-const Tile: React.FC<TileProps> = ({ piece, powered, onClick }) => {
+const Tile: React.FC<TileProps> = ({ piece, powered, wasPowered, onClick }) => {
+  let className = 'tile';
+  if (powered) {
+    className += ' powered';
+  } else if (wasPowered && piece === 'sink') {
+    className += ' unpowered';
+  }
+
   return (
-    <div className={`tile ${powered ? 'powered' : ''}`} onClick={onClick}>
+    <div className={className} onClick={onClick}>
       {piece === 'forest' ? (
         <TreeIcon />
       ) : piece === 'lake' ? (
