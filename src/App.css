@@ -16,7 +16,11 @@
 .controls {
   display: flex;
   flex-direction: column;
-  margin-right: 2vw; /* Adjusted to use viewport width */
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Optional: to ensure it stays on top of other content */
+  padding: 0.1vw; /* Optional: to add some padding */  margin-right: 2vw; /* Adjusted to use viewport width */
 }
 
 .controls button.selected {

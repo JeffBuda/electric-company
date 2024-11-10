@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>Energy Transfer Game</h1>
+      <h1>⚡ The Electric Co. ⚡</h1>
       <GameBoard />
     </div>
   );
