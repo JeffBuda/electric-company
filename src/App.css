@@ -30,7 +30,7 @@
   padding: .3vw; /* Add some padding */
   background-color: darkslategrey; /* Optional: to ensure it doesn't overlap with other content */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
-  border-radius: 10px; /* Add rounded corners */
+  border-radius: 2vw; /* Add rounded corners */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
   width: auto; /* Make the width auto to fit the content */
 }
