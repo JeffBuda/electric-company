@@ -12,12 +12,12 @@ const TREE_CHANCE = 0.1; // 10% chance to place a tree
 const LAKE_CHANCE = 0.05; // 5% chance to place a lake
 const SINK_CHANCE = 0.03; // 3% chance to place a sink
 const INITIAL_CREDITS = 100; // Initial credits
-const SINK_REWARD = .1; // Reward for each powered sink
+const SINK_REWARD = 0.1; // Reward for each powered sink
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
   const [grid, setGrid] = useState(initialGrid);
-  const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | null>(null);
+  const [selectedPiece, setSelectedPiece] = useState<'source' | 'conduit' | 'sink' | 'switch' | 'capacitor' | 'forest' | 'lake' | 'remove' | 'toggle' | null>(null);
   const [score, setScore] = useState(INITIAL_CREDITS);
   const [tornadoes, setTornadoes] = useState([{ row: 0, col: 0, direction: { row: 1, col: 1 } }]);
 
@@ -126,6 +126,10 @@ const GameBoard: React.FC = () => {
 
     if (selectedPiece === 'remove') {
       newGrid[row][col] = { piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION };
+    } else if (selectedPiece === 'toggle') {
+      if (tile.piece === 'source' || tile.piece === 'switch') {
+        tile.on = !tile.on;
+      }
     } else if (tile.piece === 'source' || tile.piece === 'switch' || tile.piece === 'capacitor') {
       tile.on = !tile.on;
       if (tile.piece === 'capacitor' && tile.on) {
@@ -193,14 +197,15 @@ const GameBoard: React.FC = () => {
     <div className="game-container">
       <div className="controls">
         <div className="score">Score: {Math.floor(score)}</div>
-        <button onClick={() => setSelectedPiece('source')}>Source</button>
-        <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
-        <button onClick={() => setSelectedPiece('sink')}>Sink</button>
-        <button onClick={() => setSelectedPiece('switch')}>Switch</button>
-        <button onClick={() => setSelectedPiece('capacitor')}>Capacitor</button>
-        <button onClick={() => setSelectedPiece('forest')}>Tree</button>
-        <button onClick={() => setSelectedPiece('lake')}>Lake</button>
-        <button onClick={() => setSelectedPiece('remove')}>Remove</button>
+        <button className={selectedPiece === 'source' ? 'selected' : ''} onClick={() => setSelectedPiece('source')}>Source</button>
+        <button className={selectedPiece === 'conduit' ? 'selected' : ''} onClick={() => setSelectedPiece('conduit')}>Conduit</button>
+        <button className={selectedPiece === 'sink' ? 'selected' : ''} onClick={() => setSelectedPiece('sink')}>Sink</button>
+        <button className={selectedPiece === 'switch' ? 'selected' : ''} onClick={() => setSelectedPiece('switch')}>Switch</button>
+        <button className={selectedPiece === 'capacitor' ? 'selected' : ''} onClick={() => setSelectedPiece('capacitor')}>Capacitor</button>
+        <button className={selectedPiece === 'forest' ? 'selected' : ''} onClick={() => setSelectedPiece('forest')}>Tree</button>
+        <button className={selectedPiece === 'lake' ? 'selected' : ''} onClick={() => setSelectedPiece('lake')}>Lake</button>
+        <button className={selectedPiece === 'remove' ? 'selected' : ''} onClick={() => setSelectedPiece('remove')}>Remove</button>
+        <button className={selectedPiece === 'toggle' ? 'selected' : ''} onClick={() => setSelectedPiece('toggle')}>Toggle</button>
         <button onClick={clearGrid}>Clear</button>
         <button onClick={resetGrid}>Reset</button>
         <button onClick={addTornado}>Tornado</button>

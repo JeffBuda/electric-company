@@ -19,6 +19,10 @@
   margin-right: 2vw; /* Adjusted to use viewport width */
 }
 
+.controls button.selected {
+  border: 2px solid yellow;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
