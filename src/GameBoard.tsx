@@ -17,6 +17,7 @@ const TREE_CHANCE = 0.1; // 10% chance to place a tree
 const LAKE_CHANCE = 0.05; // 5% chance to place a lake
 const SINK_CHANCE = 0.03; // 3% chance to place a sink
 const INITIAL_CREDITS = 100; // Initial credits
+const SINK_REWARD = .1; // Reward for each powered sink
 
 const GameBoard: React.FC = () => {
   const initialGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill({ piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION }));
@@ -195,8 +196,8 @@ const GameBoard: React.FC = () => {
 
   return (
     <div className="game-container">
-      <div className="score">Score: {score}</div>
       <div className="controls">
+        <div className="score">Score: {score}</div>
         <button onClick={() => setSelectedPiece('source')}>Source</button>
         <button onClick={() => setSelectedPiece('conduit')}>Conduit</button>
         <button onClick={() => setSelectedPiece('sink')}>Sink</button>
