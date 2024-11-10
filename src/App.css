@@ -7,6 +7,11 @@
   text-align: center;
 }
 
+.App-header {
+  font-size: 1.5rem; /* Smaller font size */
+  margin-bottom: 1px; /* Space between the title and controls */
+}
+
 .game-container {
   display: flex;
   justify-content: center;
@@ -15,12 +20,39 @@
 
 .controls {
   display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 1000; /* Optional: to ensure it stays on top of other content */
-  padding: 0.1vw; /* Optional: to add some padding */  margin-right: 2vw; /* Adjusted to use viewport width */
+  flex-direction: column; /* Column layout */
+  align-items: center; /* Center items horizontally */
+  position: fixed; /* Use fixed positioning */
+  bottom: 0;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust to center */
+  z-index: 1000; /* Ensure it stays on top of other content */
+  padding: 10px; /* Add some padding */
+  background-color: darkslategrey; /* Optional: to ensure it doesn't overlap with other content */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
+  border-radius: 10px; /* Add rounded corners */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  width: auto; /* Make the width auto to fit the content */
+}
+
+.game-title {
+  font-size: 1rem; /* Same size as button text */
+  margin-bottom: 5px; /* Space between the title and buttons */
+}
+
+.score-outages {
+  display: flex;
+  flex-direction: row; /* Column layout */
+  align-items: center; /* Center items horizontally */
+  margin-bottom: 10px; /* Space between score/outages and buttons */
+  margin-top: 1px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row; /* Row layout */
+  justify-content: center; /* Center buttons horizontally */
+  flex-wrap: wrap; /* Wrap buttons to the next line if needed */
 }
 
 .controls button.selected {
@@ -35,6 +67,15 @@
   margin: 1vw auto; /* Adjusted to use viewport width */
   width: 80vw; /* Adjusted to use viewport width */
   height: 80vw; /* Adjusted to use viewport width to maintain aspect ratio */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    bottom: 0;
+    left: 0;
+  }
 }
 
 .tile {
@@ -98,5 +139,5 @@
 }
 
 .score {
-  margin-top: 2vw; /* Adjusted to use viewport width */
+  margin-top: .1vw; /* Adjusted to use viewport width */
 }

@@ -272,25 +272,30 @@ const GameBoard: React.FC = () => {
         />
       )}
       <div className="controls">
-        <div className="score">Score: {Math.floor(score)}</div>
-        <div className="outages">Outages: {outages}</div>
-        <button className={selectedPiece === 'source' ? 'selected' : ''} onClick={() => setSelectedPiece('source')}>Power Plant</button>
-        <button className={selectedPiece === 'conduit' ? 'selected' : ''} onClick={() => setSelectedPiece('conduit')}>Power Line</button>
-        {devMode && (
-          <>
-            <button className={selectedPiece === 'sink' ? 'selected' : ''} onClick={() => setSelectedPiece('sink')}>City</button>
-            <button className={selectedPiece === 'switch' ? 'selected' : ''} onClick={() => setSelectedPiece('switch')}>Switch</button>
-            <button className={selectedPiece === 'capacitor' ? 'selected' : ''} onClick={() => setSelectedPiece('capacitor')}>Capacitor</button>
-            <button className={selectedPiece === 'forest' ? 'selected' : ''} onClick={() => setSelectedPiece('forest')}>Tree</button>
-            <button className={selectedPiece === 'lake' ? 'selected' : ''} onClick={() => setSelectedPiece('lake')}>Lake</button>
-            <button className={selectedPiece === 'remove' ? 'selected' : ''} onClick={() => setSelectedPiece('remove')}>Remove</button>
-            <button className={selectedPiece === 'toggle' ? 'selected' : ''} onClick={() => setSelectedPiece('toggle')}>Toggle</button>
-            <button onClick={clearGrid}>Clear</button>
-            <button onClick={resetGrid}>Reset</button>
-            <button onClick={addTornado}>Add Tornado</button>
-          </>
-        )}
-        <button onClick={() => setDevMode(!devMode)}>Dev Mode</button>
+        <div className="score-outages">
+          <h1 className="game-title">⚡ The Electric Co. ⚡</h1>
+          <div className="score">Score: {Math.floor(score)}</div>
+          <div className="outages">Outages: {outages}</div>
+        </div>
+        <div className="button-container">
+          <button className={selectedPiece === 'source' ? 'selected' : ''} onClick={() => setSelectedPiece('source')}>Power Plant</button>
+          <button className={selectedPiece === 'conduit' ? 'selected' : ''} onClick={() => setSelectedPiece('conduit')}>Power Line</button>
+          {devMode && (
+            <>
+              <button className={selectedPiece === 'sink' ? 'selected' : ''} onClick={() => setSelectedPiece('sink')}>City</button>
+              <button className={selectedPiece === 'switch' ? 'selected' : ''} onClick={() => setSelectedPiece('switch')}>Switch</button>
+              <button className={selectedPiece === 'capacitor' ? 'selected' : ''} onClick={() => setSelectedPiece('capacitor')}>Capacitor</button>
+              <button className={selectedPiece === 'forest' ? 'selected' : ''} onClick={() => setSelectedPiece('forest')}>Tree</button>
+              <button className={selectedPiece === 'lake' ? 'selected' : ''} onClick={() => setSelectedPiece('lake')}>Lake</button>
+              <button className={selectedPiece === 'remove' ? 'selected' : ''} onClick={() => setSelectedPiece('remove')}>Remove</button>
+              <button className={selectedPiece === 'toggle' ? 'selected' : ''} onClick={() => setSelectedPiece('toggle')}>Toggle</button>
+            </>
+          )}
+          <button onClick={clearGrid}>Clear</button>
+          <button onClick={resetGrid}>Reset</button>
+          <button onClick={addTornado}>Add Tornado</button>
+          <button onClick={() => setDevMode(!devMode)}>Dev Mode</button>
+        </div>
       </div>
       <div className="grid">
         {grid.map((row, rowIndex) =>
