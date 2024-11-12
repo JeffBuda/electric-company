@@ -13,6 +13,8 @@ const LAKE_CHANCE = 0.05; // 5% chance to place a lake
 const SINK_CHANCE = 0.03; // 3% chance to place a sink
 const INITIAL_CREDITS = 100; // Initial credits
 const SINK_REWARD = 1; // Reward for each powered sink
+const SINK_POWER_REQUIREMENT = 10; // Power requirement for each sink
+const SOURCE_POWER_CAPACITY = 50; // Power capacity for each source
 
 const DIRECTIONS = [
   { row: -1, col: 0 },  // North
@@ -51,14 +53,15 @@ const GameBoard: React.FC = () => {
     resetGrid();
   }, []);
 
-  const bfs = (startRow: number, startCol: number, newGrid: any[][]) => {
+  const bfs = (startRow: number, startCol: number, newGrid: any[][], powerCapacity: number) => {
     const directions = [
       [0, 1], [1, 0], [0, -1], [-1, 0]
     ];
     const queue = [[startRow, startCol]];
     newGrid[startRow][startCol].powered = true;
+    newGrid[startRow][startCol].powerLevel = powerCapacity;
 
-    while (queue.length > 0) {
+    while (queue.length > 0 && powerCapacity > 0) {
       const [row, col] = queue.shift()!;
       for (const [dx, dy] of directions) {
         const newRow = row + dx;
@@ -66,7 +69,16 @@ const GameBoard: React.FC = () => {
         if (newRow >= 0 && newRow < GRID_SIZE && newCol >= 0 && newCol < GRID_SIZE) {
           const neighbor = newGrid[newRow][newCol];
           if (!neighbor.powered && (neighbor.piece === 'conduit' || neighbor.piece === 'sink' || (neighbor.piece === 'switch' && neighbor.on) || (neighbor.piece === 'capacitor' && neighbor.remainingPower > 0))) {
-            neighbor.powered = true;
+            if (neighbor.piece === 'sink') {
+              if (powerCapacity >= SINK_POWER_REQUIREMENT) {
+                neighbor.powered = true;
+                neighbor.powerLevel = powerCapacity;
+                powerCapacity -= SINK_POWER_REQUIREMENT;
+              }
+            } else {
+              neighbor.powered = true;
+              neighbor.powerLevel = powerCapacity;
+            }
             queue.push([newRow, newCol]);
           }
         }
@@ -75,13 +87,13 @@ const GameBoard: React.FC = () => {
   };
 
   const updatePowerStatus = () => {
-    const newGrid = grid.map(row => row.map(tile => ({ ...tile, powered: false })));
+    const newGrid = grid.map(row => row.map(tile => ({ ...tile, powered: false, powerLevel: 0 })));
 
     // Start BFS from each source
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
         if (newGrid[row][col].piece === 'source' && newGrid[row][col].on) {
-          bfs(row, col, newGrid);
+          bfs(row, col, newGrid, SOURCE_POWER_CAPACITY);
         }
       }
     }
@@ -95,7 +107,7 @@ const GameBoard: React.FC = () => {
           } else if (newGrid[row][col].remainingPower > 0) {
             newGrid[row][col].remainingPower -= 1;
             if (newGrid[row][col].remainingPower > 0) {
-              bfs(row, col, newGrid);
+              bfs(row, col, newGrid, SOURCE_POWER_CAPACITY);
             }
           }
         }
@@ -116,7 +128,7 @@ const GameBoard: React.FC = () => {
               if (newGrid[newRow][newCol].powered) {
                 newGrid[row][col].powered = true;
                 newGrid[row][col].remainingPower = CAPACITOR_DURATION;
-                bfs(row, col, newGrid);
+                bfs(row, col, newGrid, SOURCE_POWER_CAPACITY);
                 break;
               }
             }
@@ -142,6 +154,7 @@ const GameBoard: React.FC = () => {
 
     setGrid(newGrid);
     setOutages(prevOutages => prevOutages + newOutages);
+
   };
 
   const updateScore = () => {
@@ -161,6 +174,11 @@ const GameBoard: React.FC = () => {
 
     const newGrid = [...grid];
     const tile = newGrid[row][col];
+
+    // Prevent placing a source or conduit on an occupied tile
+    if ((selectedPiece === 'source' || selectedPiece === 'conduit') && tile.piece) {
+      return;
+    }
 
     if (selectedPiece === 'remove') {
       newGrid[row][col] = { piece: null, powered: false, on: true, remainingPower: CAPACITOR_DURATION, wasPowered: tile.wasPowered };
@@ -273,8 +291,8 @@ const GameBoard: React.FC = () => {
         />
       )}
       <div className="controls">
+        <h1 className="game-title">⚡ The Electric Co. ⚡</h1>
         <div className="score-outages">
-          <h1 className="game-title">⚡ The Electric Co. ⚡</h1>
           <div className="score">Score: {Math.floor(score)}</div>
           <div className="outages">Outages: {outages}</div>
         </div>
@@ -293,7 +311,7 @@ const GameBoard: React.FC = () => {
               <button onClick={addTornado}>Add Tornado</button>
               <button onClick={clearGrid}>Clear</button>
               <button onClick={resetGrid}>Reset</button>
-              </>
+            </>
           )}
           <button onClick={() => setDevMode(!devMode)}>Dev Mode</button>
         </div>
@@ -305,6 +323,7 @@ const GameBoard: React.FC = () => {
               key={`${rowIndex}-${colIndex}`}
               piece={tornadoes.some(t => t.row === rowIndex && t.col === colIndex) ? 'tornado' : tile.piece}
               powered={tile.powered}
+              powerLevel={tile.powerLevel}
               wasPowered={tile.wasPowered}
               onClick={() => handleTileClick(rowIndex, colIndex)}
             />

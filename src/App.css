@@ -94,9 +94,9 @@
   height: 32px;
 }
 
-.tile.powered {
+/* .tile.powered {
   border: .1vw solid goldenrod;
-}
+} */
 
 .tile.unpowered {
   border: .1vw solid red;

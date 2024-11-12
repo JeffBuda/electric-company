@@ -1,0 +1,33 @@
+.tile {
+  width: 1.67vw; /* Set tile width to 1.67vw */
+  height: 1.67vw; /* Set tile height to 1.67vw */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid; /* Default border */
+  box-sizing: border-box;
+}
+
+.tile.unpowered {
+  border: 2px solid red; /* Border for unpowered sinks */
+}
+
+.tile svg {
+  width: 32px;
+  height: 32px;
+}
+
+.game-piece {
+  width: 80%; /* Adjusted to be relative to the tile */
+  height: 80%; /* Adjusted to be relative to the tile */
+  aspect-ratio: 1 / 1; /* Ensure the game piece is square */
+  box-sizing: border-box; /* Include border in the element's total width and height */
+}
+
+.game-piece.source {
+  background-color: blue;
+}
+
+.game-piece.source.off {
+  background-color: darkblue;
+}
