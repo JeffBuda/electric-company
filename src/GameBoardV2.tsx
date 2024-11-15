@@ -25,15 +25,15 @@ const GameBoardV2: React.FC = () => {
   };
 
   return (
-    <div className="game-container">
-      {state.gameState !== 'playing' && (
-        <Modal
-          title={state.gameState === 'start' ? 'Welcome to the ⚡ The Electric Co. ⚡' : 'Game Over'}
-          message={state.gameState === 'start' ? 'Instructions: Place pieces to manage the energy flow. Avoid outages and negative scores.' : 'You lost! You had over 100 outages or a score below -2000.'}
-          onClose={closeModal}
-        />
-      )}
-      <Map grid={state.grid} handleTileClick={handleTileClick} />
+    <>
+        {state.gameState !== 'playing' && (
+          <Modal
+            title={state.gameState === 'start' ? 'Welcome to the ⚡ The Electric Co. ⚡' : 'Game Over'}
+            message={state.gameState === 'start' ? 'Instructions: Place pieces to manage the energy flow. Avoid outages and negative scores.' : 'You lost! You had over 100 outages or a score below -2000.'}
+            onClose={closeModal}
+          />
+        )}
+        <Map grid={state.grid} handleTileClick={handleTileClick} />
       <Controls
         score={state.score}
         outages={state.outages}
@@ -41,7 +41,7 @@ const GameBoardV2: React.FC = () => {
         devMode={state.devMode}
         dispatch={dispatch}
       />
-    </div>
+    </>  
   );
 };
 

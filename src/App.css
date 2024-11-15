@@ -1,84 +1,124 @@
 /* App.css */
+
+/* Root Variables */
 :root {
   --grid-size: 50; /* Define the grid size variable */
 }
 
+/* Main App Container */
 .App {
   text-align: center;
+  overflow: hidden;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
 }
 
+/* App Header */
 .App-header {
   font-size: 1.5rem; /* Smaller font size */
   margin-bottom: 1px; /* Space between the title and controls */
 }
 
+/* Game Container */
 .game-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  /* justify-content: center;
-  align-items: flex-start; */
+  overflow: hidden; /* Prevent scrollbars */
+  padding-bottom: 70px; /* Space for fixed controls */
 }
 
-/* Controls styles */
+/* Gameboard Grid */
+.grid {
+  flex: 1; /* Occupies remaining space */
+  overflow-y: auto; /* Enables vertical scrolling if needed */
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
+  grid-template-rows: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
+  gap: 0.1vw; /* Gap between grid items */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+}
+
+/* Controls Component */
 .controls {
+  position: fixed; /* Fix controls at the bottom */
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
-  flex-direction: column; /* Column layout */
+  flex-direction: column; /* Stack items vertically on mobile */
   align-items: center; /* Center items horizontally */
   justify-content: center; /* Center items vertically */
   background-color: darkslategrey; /* Background color */
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for separation */
   padding: 10px 20px; /* Padding for spacing */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  width: 100%; /* Full width by default */
-  z-index: 1000; /* Ensure it stays on top of other content */
+  box-sizing: border-box; /* Include padding and border in width and height */
+  width: 100%; /* Full width */
+  z-index: 1000; /* Ensure it stays on top */
 }
 
+/* Game Title */
 .game-title {
-  font-size: 1rem; /* Same size as button text */
-  margin: .05vw;
-  margin-top: .01vw; /* Space between title and score/outages */
+  font-size: 1.5rem; /* Increased font size for visibility */
+  margin-bottom: 10px; /* Space below the title */
+  color: white; /* Text color for contrast */
 }
 
-.score-outages {
-  display: flex;
-  flex-direction: row; /* Column layout */
-  align-items: center; /* Center items horizontally */
-  margin-bottom: .1vw; /* Space between score/outages and buttons */
-  margin-top: .1vw;
-  gap: .4vw; /* Space between score and outages */
-}
-
+/* Button Container */
 .button-container {
   display: flex;
-  flex-direction: row; /* Row layout */
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  gap: 10px; /* Space between buttons */
+  width: 100%; /* Full width */
   justify-content: center; /* Center buttons horizontally */
-  flex-wrap: wrap; /* Wrap buttons to the next line if needed */
-  gap: .4vw; /* Space between buttons */
 }
 
-.controls button.selected {
-  border: .1vw solid yellow;
+/* Button Styles */
+.button-container button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #ffffff; /* Button background color */
+  transition: background-color 0.3s ease; /* Smooth transition */
 }
 
-.grid {
-  flex: 1;
-  overflow: scroll;
-  display: grid;
-  grid-template-columns: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
-  grid-template-rows: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
-  gap: 0.1vw; /* Adjusted to use viewport width */
-  margin: 1vw auto; /* Adjusted to use viewport width */
-  width: 80vw; /* Adjusted to use viewport width */
-  height: 80vw; /* Adjusted to use viewport width to maintain aspect ratio */
+.button-container button.selected {
+  background-color: #007bff; /* Selected button color */
+  color: white;
 }
 
-/* Media query for mobile devices */
-@media (max-width: 600px) {
+.button-container button:hover {
+  background-color: #e0e0e0; /* Hover effect */
+}
+
+/* Media Query for Desktop Devices */
+@media (min-width: 769px) {
+  /* Remove padding from game-container as controls are not fixed */
+  .game-container {
+    padding-bottom: 0;
+  }
+
+  /* Adjust Controls for Desktop */
   .controls {
-    flex-direction: column; /* Stack buttons vertically on small screens */
-    bottom: 0;
-    left: 0;
+    position: static; /* Position relative within the layout */
+    flex-direction: row; /* Arrange items horizontally */
+    justify-content: space-between; /* Distribute space between items */
+    align-items: center; /* Center items vertically */
+    padding: 20px 40px; /* Increased padding for desktop */
+  }
+
+  /* Optional: Adjust Button Container for Desktop */
+  .button-container {
+    gap: 20px; /* Increased gap between buttons */
+  }
+
+  /* Optional: Adjust Game Title for Desktop */
+  .game-title {
+    font-size: 2rem; /* Larger font size for desktop */
+    margin-bottom: 20px; /* More space below title */
   }
 }
 
