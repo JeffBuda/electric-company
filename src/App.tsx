@@ -1,11 +1,11 @@
-import React from 'react';
-import GameBoard from './GameBoard';
+//import GameBoard from './GameBoard';
+import GameBoardV2 from './GameBoardV2';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <GameBoard />
+      <GameBoardV2 />
     </div>
   );
 }
