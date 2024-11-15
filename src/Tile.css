@@ -6,6 +6,7 @@
   align-items: center;
   border: 2px solid; /* Default border */
   box-sizing: border-box;
+  background-color: var(--color-secondary-dark-2);
 }
 
 .tile.unpowered {

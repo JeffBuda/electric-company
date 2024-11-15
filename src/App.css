@@ -4,6 +4,22 @@
 :root {
   --grid-size: 50; /* Define the grid size variable */
   --controls-height: 70px; /* Height of the controls panel */
+
+  /* Color Variables */
+  /* From: https://coolors.co/palette/582f0e-7f4f24-936639-a68a64-b6ad90-c2c5aa-a4ac86-656d4a-414833-333d29 */
+  --color-primary-dark-3: #582F0E;
+  --color-primary-dark-2: #7F4F24;
+  --color-primary-dark-1: #936639;
+  --color-mid-3: #A68A64;
+  --color-mid-2: #B6AD90;
+  --color-light-1: #C2C5AA;
+  --color-light-2: #A4AC86;
+  --color-secondary-dark-1: #656D4A;
+  --color-secondary-dark-2: #414833;
+  --color-secondary-dark-3: #333D29;
+
+  --color-text-primary: var(--color-mid-2);
+  --color-text-bold: var(--color-primary-dark-3);
 }
 
 /* Box-sizing */
@@ -25,8 +41,8 @@
 .App-header {
   font-size: 1.5rem; /* Smaller font size */
   margin-bottom: 1px; /* Space between the title and controls */
-  background-color: #282c34;
-  color: white;
+  background-color: var(--color-dark-3);
+  color: var(--color-mid-1);
   padding: 10px 0;
 }
 
@@ -55,8 +71,9 @@
   left: 0;
   right: 0;
   height: var(--controls-height); /* Fixed height */
-  background-color: darkslategrey; /* Background color */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for separation */
+  color: var(--color-mid-3);
+  background-color: var(--color-secondary-dark-1); /* Background color */
+  box-shadow: 0 -2px 5px var(--color-secondary-dark-3); /* Shadow for separation */
   display: flex;
   flex-direction: row; /* Arrange items horizontally */
   align-items: center; /* Center items vertically */
@@ -71,7 +88,7 @@
 .game-title {
   font-size: 1.5rem; /* Increased font size for visibility */
   margin-bottom: 10px; /* Space below the title */
-  color: white; /* Text color for contrast */
+  color: var(--color-text-primary); /* Text color for contrast */
 }
 
 /* Button Container */
@@ -91,20 +108,20 @@
   border-radius: 5px;
   width: 15vw;
   cursor: pointer;
-  background-color: lightslategrey; /* Button background color */
+  background-color: var(--color-secondary-dark-2); /* Button background color */
   color: #000000; /* Set text color to black for readability */
   transition: background-color 0.3s ease; /* Smooth transition */
 }
 
 /* Selected Button Styles */
 .button-container button.selected {
-  background-color: darkslategray; /* Selected button color */
-  color: lightgray; /* Text color remains white */
+  background-color: var(--color-mid-3); /* Selected button color */
+  color: var(--color-light-2); /* Text color remains white */
 }
 
 /* Hover Effect */
 .button-container button:hover {
-  background-color: dimgray; /* Hover effect */
+  background-color: var(--color-light-1); /* Hover effect */
 }
 
 /* Media Query for Desktop Devices */
@@ -117,6 +134,7 @@
     justify-content: space-between; /* Distribute space between items */
     align-items: center; /* Center items vertically */
     padding: 20px 40px; /* Increased padding for desktop */
+    background-color: var(--color-secondary-dark-3);
   }
 
   /* Remove padding-bottom from game-container */
@@ -133,7 +151,7 @@
   .button-container button {
     padding: 12px 20px; /* Larger buttons on desktop */
     font-size: 1.1rem; /* Larger text on buttons */
-    color: #000000; /* Ensure text is readable on larger buttons */
+    color: var(--color-primary-dark-1); /* Ensure text is readable on larger buttons */
   }
 
   /* Optional: Adjust Game Title for Desktop */
@@ -161,7 +179,7 @@
 } */
 
 .tile.unpowered {
-  border: .1vw solid red;
+  border: .1vw solid var(--color-light-1);
 }
 
 .game-piece {
@@ -171,24 +189,8 @@
   box-sizing: border-box; /* Include border in the element's total width and height */
 }
 
-.game-piece.source {
-  background-color: blue;
-}
-
-.game-piece.source.off {
-  background-color: darkblue;
-}
-
-.game-piece.conduit {
-  background-color: darkolivegreen;
-}
-
-.game-piece.sink {
-  background-color: orange;
-}
-
 .game-piece.powered {
-  border: 0.1vw solid yellow; /* Adjusted to use viewport width */
+  border: 0.1vw solid var(--color-light-1); /* Adjusted to use viewport width */
 }
 
 .game-piece.switch {
