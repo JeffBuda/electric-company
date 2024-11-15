@@ -3,6 +3,12 @@
 /* Root Variables */
 :root {
   --grid-size: 50; /* Define the grid size variable */
+  --controls-height: 70px; /* Height of the controls panel */
+}
+
+/* Box-sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 /* Main App Container */
@@ -11,27 +17,28 @@
   overflow: hidden;
   width: 100vw; /* Full viewport width */
   height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
 }
 
 /* App Header */
 .App-header {
   font-size: 1.5rem; /* Smaller font size */
   margin-bottom: 1px; /* Space between the title and controls */
+  background-color: #282c34;
+  color: white;
+  padding: 10px 0;
 }
 
 /* Game Container */
 .game-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden; /* Prevent scrollbars */
-  padding-bottom: 70px; /* Space for fixed controls */
+  flex: 1 1 auto; /* Occupies remaining space */
+  overflow: auto; /* Enable scrolling */
+  padding-bottom: var(--controls-height); /* Prevent content from being hidden behind controls */
 }
 
 /* Gameboard Grid */
 .grid {
-  flex: 1; /* Occupies remaining space */
-  overflow-y: auto; /* Enables vertical scrolling if needed */
   display: grid;
   grid-template-columns: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
   grid-template-rows: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
@@ -42,19 +49,18 @@
 
 /* Controls Component */
 .controls {
+  height: var(--controls-height); /* Fixed height */
+  background-color: darkslategrey; /* Background color */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for separation */
+  display: flex;
+  flex-direction: row; /* Arrange items horizontally */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  padding: 10px 20px; /* Padding for spacing */
+  width: 100%; /* Full width */
   position: fixed; /* Fix controls at the bottom */
   bottom: 0;
   left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column; /* Stack items vertically on mobile */
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center items vertically */
-  background-color: darkslategrey; /* Background color */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for separation */
-  padding: 10px 20px; /* Padding for spacing */
-  box-sizing: border-box; /* Include padding and border in width and height */
-  width: 100%; /* Full width */
   z-index: 1000; /* Ensure it stays on top */
 }
 
@@ -70,7 +76,7 @@
   display: flex;
   flex-wrap: wrap; /* Allow buttons to wrap */
   gap: 10px; /* Space between buttons */
-  width: 100%; /* Full width */
+  width: auto; /* Adjust width based on content */
   justify-content: center; /* Center buttons horizontally */
 }
 
@@ -96,23 +102,30 @@
 
 /* Media Query for Desktop Devices */
 @media (min-width: 769px) {
-  /* Remove padding from game-container as controls are not fixed */
-  .game-container {
-    padding-bottom: 0;
-  }
-
-  /* Adjust Controls for Desktop */
+  /* Remove fixed positioning for desktop */
   .controls {
     position: static; /* Position relative within the layout */
+    height: auto; /* Let height adjust based on content */
     flex-direction: row; /* Arrange items horizontally */
     justify-content: space-between; /* Distribute space between items */
     align-items: center; /* Center items vertically */
     padding: 20px 40px; /* Increased padding for desktop */
   }
 
-  /* Optional: Adjust Button Container for Desktop */
+  /* Remove padding-bottom from game-container */
+  .game-container {
+    padding-bottom: 0;
+  }
+
+  /* Adjust Button Container for Desktop */
   .button-container {
     gap: 20px; /* Increased gap between buttons */
+  }
+
+  /* Adjust Button Sizes for Desktop */
+  .button-container button {
+    padding: 12px 20px; /* Larger buttons on desktop */
+    font-size: 1.1rem; /* Larger text on buttons */
   }
 
   /* Optional: Adjust Game Title for Desktop */

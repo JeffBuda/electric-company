@@ -14,7 +14,6 @@ interface ControlsProps {
 const Controls: React.FC<ControlsProps> = ({ score, outages, selectedPiece, devMode, dispatch }) => {
   return (
     <div className="controls">
-      <h1 className="game-title">⚡ The Electric Co. ⚡</h1>
       <div className="score-outages">
         <div className="score">Score: {Math.floor(score)}</div>
         <div className="outages">Outages: {outages}</div>
