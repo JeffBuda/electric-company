@@ -45,10 +45,15 @@
   gap: 0.1vw; /* Gap between grid items */
   width: 100%; /* Full width */
   height: 100%; /* Full height */
+  overflow: auto;
 }
 
 /* Controls Component */
 .controls {
+  position: fixed; /* Fix controls at the bottom */
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: var(--controls-height); /* Fixed height */
   background-color: darkslategrey; /* Background color */
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for separation */
@@ -56,12 +61,10 @@
   flex-direction: row; /* Arrange items horizontally */
   align-items: center; /* Center items vertically */
   justify-content: center; /* Center items horizontally */
-  padding: 10px 20px; /* Padding for spacing */
+  padding: 5px 10px; /* Reduced padding for mobile */
   width: 100%; /* Full width */
-  position: fixed; /* Fix controls at the bottom */
-  bottom: 0;
-  left: 0;
   z-index: 1000; /* Ensure it stays on top */
+  overflow: scroll;
 }
 
 /* Game Title */
@@ -82,22 +85,26 @@
 
 /* Button Styles */
 .button-container button {
-  padding: 10px 15px;
-  font-size: 1rem;
+  padding: 8px 12px; /* Reduced padding for mobile */
+  font-size: 0.9rem; /* Smaller font size for mobile */
   border: none;
   border-radius: 5px;
+  width: 15vw;
   cursor: pointer;
-  background-color: #ffffff; /* Button background color */
+  background-color: lightslategrey; /* Button background color */
+  color: #000000; /* Set text color to black for readability */
   transition: background-color 0.3s ease; /* Smooth transition */
 }
 
+/* Selected Button Styles */
 .button-container button.selected {
-  background-color: #007bff; /* Selected button color */
-  color: white;
+  background-color: darkslategray; /* Selected button color */
+  color: lightgray; /* Text color remains white */
 }
 
+/* Hover Effect */
 .button-container button:hover {
-  background-color: #e0e0e0; /* Hover effect */
+  background-color: dimgray; /* Hover effect */
 }
 
 /* Media Query for Desktop Devices */
@@ -126,6 +133,7 @@
   .button-container button {
     padding: 12px 20px; /* Larger buttons on desktop */
     font-size: 1.1rem; /* Larger text on buttons */
+    color: #000000; /* Ensure text is readable on larger buttons */
   }
 
   /* Optional: Adjust Game Title for Desktop */
@@ -201,4 +209,8 @@
 
 .score {
   margin-top: .1vw; /* Adjusted to use viewport width */
+}
+
+.score-outages {
+  margin-right: .1vw; /* Adjusted to use viewport width */
 }
