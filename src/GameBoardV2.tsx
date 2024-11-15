@@ -33,6 +33,7 @@ const GameBoardV2: React.FC = () => {
           onClose={closeModal}
         />
       )}
+      <Map grid={state.grid} handleTileClick={handleTileClick} />
       <Controls
         score={state.score}
         outages={state.outages}
@@ -40,7 +41,6 @@ const GameBoardV2: React.FC = () => {
         devMode={state.devMode}
         dispatch={dispatch}
       />
-      <Map grid={state.grid} handleTileClick={handleTileClick} />
     </div>
   );
 };

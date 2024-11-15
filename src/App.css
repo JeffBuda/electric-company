@@ -14,25 +14,24 @@
 
 .game-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  height: 100vh;
+  /* justify-content: center;
+  align-items: flex-start; */
 }
 
+/* Controls styles */
 .controls {
   display: flex;
   flex-direction: column; /* Column layout */
   align-items: center; /* Center items horizontally */
-  position: fixed; /* Use fixed positioning */
-  bottom: 0;
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Adjust to center */
-  z-index: 1000; /* Ensure it stays on top of other content */
-  padding: .3vw; /* Add some padding */
-  background-color: darkslategrey; /* Optional: to ensure it doesn't overlap with other content */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
-  border-radius: 2vw; /* Add rounded corners */
+  justify-content: center; /* Center items vertically */
+  background-color: darkslategrey; /* Background color */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Shadow for separation */
+  padding: 10px 20px; /* Padding for spacing */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  width: auto; /* Make the width auto to fit the content */
+  width: 100%; /* Full width by default */
+  z-index: 1000; /* Ensure it stays on top of other content */
 }
 
 .game-title {
@@ -63,6 +62,8 @@
 }
 
 .grid {
+  flex: 1;
+  overflow: scroll;
   display: grid;
   grid-template-columns: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
   grid-template-rows: repeat(var(--grid-size), 1fr); /* Use the CSS variable */
