@@ -5,17 +5,18 @@ import { Tile as TileType } from './gameBoardReducer';
 
 interface MapProps {
   grid: TileType[][];
+  tornadoes: { row: number; col: number }[];
   handleTileClick: (row: number, col: number) => void;
 }
 
-const Map: React.FC<MapProps> = ({ grid, handleTileClick }) => {
+const Map: React.FC<MapProps> = ({ grid, tornadoes, handleTileClick }) => {
   return (
     <div className="grid">
       {grid.map((row, rowIndex) =>
         row.map((tile, colIndex) => (
           <Tile
             key={`${rowIndex}-${colIndex}`}
-            piece={tile.piece}
+            piece={tornadoes.some(t => t.row === rowIndex && t.col === colIndex) ? 'tornado' : tile.piece}
             powered={tile.powered}
             powerLevel={tile.powerLevel ?? 0}
             wasPowered={tile.wasPowered}

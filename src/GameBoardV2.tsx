@@ -42,7 +42,11 @@ const GameBoardV2: React.FC = () => {
             onClose={closeModal}
           />
         )}
-        <Map grid={state.grid} handleTileClick={handleTileClick} />
+        <Map 
+          grid={state.grid} 
+          tornadoes={state.tornadoes} 
+          handleTileClick={handleTileClick} 
+          />
       </div>
       <Controls
         score={state.score}
