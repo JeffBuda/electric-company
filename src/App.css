@@ -66,17 +66,13 @@
 
 /* Controls Component */
 .controls {
+  color: var(--color-mid-3);
   background-color: black;
-  border-color: var(--color-primary-dark-3);
-  border-width: 1vw;
-  border-style: solid;
   position: fixed; /* Fix controls at the bottom */
   bottom: 0;
   left: 0;
   right: 0;
   height: var(--controls-height); /* Fixed height */
-  color: var(--color-mid-3);
-  background-color: var(--color-secondary-dark-3); /* Background color */
   box-shadow: 0 -2px 5px var(--color-secondary-dark-3); /* Shadow for separation */
   display: flex;
   flex-direction: row; /* Arrange items horizontally */
