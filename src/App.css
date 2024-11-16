@@ -66,13 +66,17 @@
 
 /* Controls Component */
 .controls {
+  background-color: black;
+  border-color: var(--color-primary-dark-3);
+  border-width: 1vw;
+  border-style: solid;
   position: fixed; /* Fix controls at the bottom */
   bottom: 0;
   left: 0;
   right: 0;
   height: var(--controls-height); /* Fixed height */
   color: var(--color-mid-3);
-  background-color: var(--color-secondary-dark-1); /* Background color */
+  background-color: var(--color-secondary-dark-3); /* Background color */
   box-shadow: 0 -2px 5px var(--color-secondary-dark-3); /* Shadow for separation */
   display: flex;
   flex-direction: row; /* Arrange items horizontally */
@@ -102,6 +106,8 @@
 
 /* Button Styles */
 .button-container button {
+  color: var(--color-mid-3);
+  background-color: var(--color-secondary-dark-1);
   padding: 8px 12px; /* Reduced padding for mobile */
   font-size: 0.9rem; /* Smaller font size for mobile */
   border: none;
@@ -134,7 +140,8 @@
     justify-content: space-between; /* Distribute space between items */
     align-items: center; /* Center items vertically */
     padding: 20px 40px; /* Increased padding for desktop */
-    background-color: var(--color-secondary-dark-3);
+    background-color: var(--color-primary-dark-3);
+
   }
 
   /* Remove padding-bottom from game-container */
@@ -151,7 +158,7 @@
   .button-container button {
     padding: 12px 20px; /* Larger buttons on desktop */
     font-size: 1.1rem; /* Larger text on buttons */
-    color: var(--color-primary-dark-1); /* Ensure text is readable on larger buttons */
+    color: var(--color-secondary-dark-1); /* Ensure text is readable on larger buttons */
   }
 
   /* Optional: Adjust Game Title for Desktop */
@@ -162,6 +169,7 @@
 }
 
 .tile {
+  background-color: var(--color-secondary-dark-3);
   width: 100%;
   height: 100%;
   display: flex;
@@ -214,5 +222,6 @@
 }
 
 .score-outages {
-  margin-right: .1vw; /* Adjusted to use viewport width */
+  color: var(--color-mid-3);
+  margin-right: 3vw; /* Adjusted to use viewport width */
 }
